@@ -1,0 +1,38 @@
+const Discord = require('discord.js');
+const {prefix, token} = require('./midoriconfig.json');
+const bot = new Discord.Client;
+
+bot.once('ready', () => {
+    console.log(`Ready!`)
+    bot.user.setActivity('m!help', {type: 'WATCHING'})
+
+    bot.on('message', async message => {
+        if(message.content === `${prefix}verify`) {
+            if(message.author.bot) return;
+            const role = message.guild.roles.cache.find(role => role.name === 'verified');
+            const guild = message.guild.name;
+            message.delete()
+            message.member.roles.add(role);
+            message.channel.send(`Thanks for joining ${guild}`);
+
+        }
+        if (message.content === `${prefix}botinfo`) {
+            
+            const botembed = new Discord.MessageEmbed()
+            .setColor('#03fc41')
+            .setTitle('**Midori**')
+            .setDescription('__**Bot Information**__')
+            .setThumbnail('https://i.pinimg.com/originals/15/78/fa/1578fa6d419595cab3501b453d1903b7.png')
+            .addFields(
+                { name: 'Bot Name:', value: 'Midori'},
+                { name: 'Creation Date', value: bot.user.createdAt},
+                { name: 'Author', value: 'Your Pal Zander'},
+                { name: 'Current Status', value: 'Work in progress'}
+            )
+            channel.send(botembed)
+        }
+    })
+
+})
+
+bot.login(token);
